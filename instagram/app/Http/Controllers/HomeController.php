@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 //use Illuminate\Foundation\Auth\LoginController;
 use App\Http\Controllers\Auth\LoginController;
@@ -25,7 +26,7 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function index(Post $post)
     {
@@ -39,10 +40,12 @@ class HomeController extends Controller
     public function store()
     {
         $data = request()->all();
+        $UserFromDB = User::find(Auth::id());
         $description = request()->description;
         Post::create([
             'description' => $description,
-            'email' => (request()->user()->email)
+            'email' => (request()->user()->email),
+            'name' => $UserFromDB->name
         ]);
         return to_route('home.index');
     }

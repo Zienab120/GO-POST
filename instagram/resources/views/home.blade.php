@@ -39,32 +39,30 @@
 
             @foreach($posts as $post)
             <table class="table mt-4">
-{{--                <thead>--}}
-{{--                <tr>--}}
-{{--                    <th scope="col">#</th>--}}
-{{--                    <th scope="col">Description</th>--}}
-{{--                    <th scope="col">Posted By</th>--}}
-{{--                    <th scope="col">Created At</th>--}}
-{{--                </tr>--}}
-{{--                </thead>--}}
                 <tbody>
 
                     <tr>
 
-{{--                        <td>{{$post->id}}</td>--}}
-{{--                        <td>{{$post->$email ? $email : 'not found'}}</td>--}}
-                        <div><strong>{{$username}}</strong></div><br>
-{{--                        <td>{{$post->description}}</td>--}}
+{{--                        <div><strong>{{$post->email}}</strong></div><br>--}}
+                        <div><strong>{{$post->name}}</strong></div><br>
                         <div>{{$post->description}}</div>
-
-{{--                        <td>{{$post->created_at->format('Y-m-d')}}</td>--}}
                         <td>
-{{--                            <a href="{{route('posts.show', $post->id)}}" class="btn btn-info">View</a>--}}
-{{--                            <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">Edit</a>--}}
+                            <div style="inset-inline: auto">
+                                <a role="button" href="{{route('posts.like', $post->id)}}" class="btn btn-primary">Like</a>
+                                <div>{{$post->likes}}
+                                    Likes</div>
+                            </div>
+                            <div style="inset-inline: auto">
+                                <a href="{{route('posts.comment', $post->id)}}" class="btn btn-primary">Comment</a>
+                                <div>{{$post->comments}}
+                                    Comments</div>
+                            </div>
+{{--                            <div style="inset-inline: auto">--}}
+{{--                                <a href="{{route('posts.edit', $post->id)}}" class="btn btn-primary">Share</a>--}}
+{{--                                {{$post->shares}} Shares--}}
+{{--                            </div>--}}
                         </td>
                     </tr>
-
-
 
                 </tbody>
             </table>

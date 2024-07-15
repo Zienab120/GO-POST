@@ -29,18 +29,39 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{route('posts.edit', $profilePost->id)}}">Edit</a></li>
 {{--                                <li><a class="dropdown-item" >Delete</a></li>--}}
-                            </ul>
-                            <form style="display: inline;" method="POST" action="{{route('posts.destroy', $profilePost->id)}}">
+
+                            <form style="display: inline;" action="{{route('posts.destroy', $profilePost->id)}}" method="POST">
+
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
+                            </ul>
                         </div>
                         <tbody>
                         <tr>
-                                <div><strong>{{$email}}</strong></div><br>
+{{--                                <div><strong>{{$email}}</strong></div><br>--}}
+                                <div><strong>{{$username}}</strong></div><br>
                                 <div>{{$profilePost->description}}</div>
+                            <div style="inset-inline: auto">
+{{--                                <button  type="button" aria-expanded="false" href="{{route('posts.like', $profilePost->id)}}">Like</button>--}}
+                                <a role="button" href="{{route('posts.like', $profilePost->id)}}" class="btn btn-primary">Like</a>
+                                <div>{{$profilePost->likes}}
+                                    Likes</div>
+                            </div>
+                            <div style="inset-inline: auto">
+                                <a href="{{route('posts.comment', $profilePost->id)}}" class="btn btn-primary">Comment</a>
+{{--                                <button type="button" aria-expanded="false">Comment</button>--}}
+                                <div>{{$profilePost->comments}}
+                                    Comments</div>
+                            </div>
+{{--                            <div style="inset-inline: auto">--}}
+{{--                                <a href="{{route('posts.edit', $profilePost->id)}}" class="btn btn-primary">Share</a>--}}
+{{--                                <button type="button" aria-expanded="false">Share</button>--}}
+{{--                                {{$profilePost->shares}} Shares--}}
+{{--                            </div>--}}
                             <td></td>
+
                         </tr>
                         </tbody>
                     </table>

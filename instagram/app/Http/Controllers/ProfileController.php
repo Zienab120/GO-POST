@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -26,7 +27,10 @@ class ProfileController extends Controller
     public function index()
     {
         $ProfilePostFromDB = Post::where('email', request()->user()->email)->get(); //collection object
-        return view('profile', ['email' => (request()->user()->email), 'ProfilePosts' => $ProfilePostFromDB]);
+        $UsersFromDB = User::all();
+        $UserFromDB = User::find(Auth::id());
+//        @dd($UserFromDB->name);
+        return view('profile', ['email' => (request()->user()->email),'username'=>$UserFromDB->name, 'ProfilePosts' => $ProfilePostFromDB]);
     }
 
     public function edit(Post $post)
@@ -39,21 +43,33 @@ class ProfileController extends Controller
     {
         $description = request()->description;
         $singlePostFromDB = Post::find($postId);
+        $singlePostFromDB->comments = request()->comment;
         $singlePostFromDB->update([
             'description' => $description,
             'user_email' => request()->user()->email,
+            'comments' => request()->comment
         ]);
+
 
         $ProfilePostFromDB = Post::where('email', request()->user()->email)->get();
         return view('profile', ['email' => (request()->user()->email), 'ProfilePosts' => $ProfilePostFromDB]);
     }
 
-    public function destroy($postId)
+    public function Like($postId)
     {
         $post = Post::find($postId);
-        $post->delete();
-        Post::where('id', $postId)->delete();
-        return to_route('home', $postId);
+        $post->likes = ($post->likes) + 1;
+        $post->update(['likes' => $post->likes]);
+//        @dd($post->likes);
+        return to_route('profile.index');
     }
+
+    public function comment(Post $post)
+    {
+        $users = User::all();
+        return view('posts.comment', ['users' => $users, 'post' => $post]);
+
+    }
+
 }
 
